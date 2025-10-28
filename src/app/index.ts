@@ -3,7 +3,11 @@ import express from "express";
 import router from "../route/route.ts"
 import { Log } from "../helper/middlewares/request.logger.ts";
 import { testConnection } from "../config/dbConnect.ts";
-import User from "../modules/user/user.model.ts";
+// import User from "../modules/user/user.model.ts";
+// import Comment from "../modules/comments/comments.model.ts";
+// import TeamMember from "../modules/team-member/team-member.model.ts";
+// import StatusMaster from "../modules/status-master/status-master.model.ts";
+import Task from "../modules/task/task.model.ts";
 
 dotenv.config();
 
@@ -15,7 +19,11 @@ app.use('/', new Log().requestLogger, router);
 console.log(PORT);
 
 await testConnection();
-await User.sync({alter:true});
+// await User.sync({alter:true});
+// await Comment.sync({alter:true});
+// await TeamMember.sync({alter:true});
+// await StatusMaster.sync({alter:true});
+await Task.sync({alter:true});
 
 app.listen(PORT, () => {
     console.log(`Server is running at port : ${PORT}`);
