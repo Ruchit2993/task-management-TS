@@ -74,6 +74,7 @@ VALIDATION: {
     CODE_OPTIONAL_INVALID: "Code must be a string between 3 and 50 characters.",
     NAME_OPTIONAL_INVALID: "Name must be a string between 3 and 50 characters.",
     DESCRIPTION_OPTIONAL_INVALID: "Description must be a string or null.",
+    CONTACT_OPTIONAL_INVALID: "Contect must be in string or null.",
     TASK_STATUS_INVALID: "Status must be a string.",
     TASK_NAME_REQUIRED: "Name is required and must be a string.",
     TASK_DESCRIPTION_INVALID: "Description must be a string or null.",
@@ -83,6 +84,9 @@ VALIDATION: {
     TASK_COMMENT_INVALID: "Comment must be a string.",
     TASK_COMMENT_REQUIRED_FOR_NON_ADMIN: "Comment is required when updating status for non-admin users.",
     USER_PATCH_FIELDS_REQUIRED: "At least one field (name, email, contact, password) is required.",
+    NAME_REQUIRED: "Name is required.",
+    EMAIL_REQUIRED: "Email is required.",
+    PASSWORD_REQUIRED:"Password is required.",
 
   },
 

@@ -1,4 +1,4 @@
-import messages from "../../helper/constants/messages.js";
+import messages from "../../helper/constants/messages.ts";
 
 // Shared email validator
 const validateEmail = (email: string): boolean => {
