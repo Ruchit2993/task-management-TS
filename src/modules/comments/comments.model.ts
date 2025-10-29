@@ -1,5 +1,5 @@
 import { sequelize } from "../../config/dbConnect.ts";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 
 type CommentAttributes = {
   id: number;
@@ -9,11 +9,14 @@ type CommentAttributes = {
   createdAt: Date;
   updatedAt: Date;
   deleted: number;
-  createdBy: number;
-  updatedBy: number;
+  createdBy: number | null;
+  updatedBy: number | null;
 }
 
-class Comment extends Model<CommentAttributes> implements CommentAttributes {
+type CommentCreationAttributes = Optional<CommentAttributes,
+  "id" | "createdAt" | "updatedAt" | "deleted" | "createdBy" | "updatedBy">;
+
+class Comment extends Model<CommentAttributes, CommentCreationAttributes> implements CommentAttributes {
   declare id: number;
   declare userId: number;
   declare taskId: number;
@@ -21,8 +24,8 @@ class Comment extends Model<CommentAttributes> implements CommentAttributes {
   declare createdAt: Date;
   declare updatedAt: Date;
   declare deleted: number;
-  declare createdBy: number;
-  declare updatedBy: number;
+  declare createdBy: number | null;
+  declare updatedBy: number | null;
 }
 
 Comment.init(

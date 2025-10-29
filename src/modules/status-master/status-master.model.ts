@@ -1,5 +1,5 @@
 import { sequelize } from "../../config/dbConnect.ts";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 // import Task from "./task-model.js";
 
 type StatusMasterAttributes = {
@@ -10,13 +10,16 @@ type StatusMasterAttributes = {
   deleted: number;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt: Date;
-  createdBy: number;
-  updatedBy: number;
-  deletedBy: number;
+  deletedAt: Date | null;
+  createdBy: number | null;
+  updatedBy: number | null;
+  deletedBy: number | null;
 }
 
-class StatusMaster extends Model<StatusMasterAttributes> implements StatusMasterAttributes {
+type StatusMasterCreationAttributes = Optional<StatusMasterAttributes,
+  "id" | "deleted" | "createdAt" | "updatedAt" | "deletedAt" | "createdBy" | "updatedBy" | "deletedBy">;
+
+class StatusMaster extends Model<StatusMasterAttributes, StatusMasterCreationAttributes> implements StatusMasterAttributes {
   declare id: number;
   declare code: string;
   declare name: string;
@@ -24,10 +27,10 @@ class StatusMaster extends Model<StatusMasterAttributes> implements StatusMaster
   declare deleted: number;
   declare createdAt: Date;
   declare updatedAt: Date;
-  declare deletedAt: Date;
-  declare createdBy: number;
-  declare updatedBy: number;
-  declare deletedBy: number;
+  declare deletedAt: Date | null;
+  declare createdBy: number | null;
+  declare updatedBy: number | null;
+  declare deletedBy: number | null;
 }
 
 StatusMaster.init(

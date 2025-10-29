@@ -1,5 +1,5 @@
 import { sequelize } from "../../config/dbConnect.ts";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 // import User from "./user-model.js";
 // import TeamMember from "./team-member-model.js";
 // import StatusMaster from "../status-master/status-master.model.ts";
@@ -9,31 +9,35 @@ type TaskAttributes = {
   id: number;
   name: string;
   description: string;
-  status: number;
+  status: string;
   dueDate: Date;
   deleted: number;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt: Date;
-  createdBy: number;
-  updatedBy: number;
-  deletedBy: number;
+  deletedAt: Date | null;
+  createdBy: number | null;
+  updatedBy: number | null;
+  deletedBy: number | null;
 
 }
 
-class Task extends Model<TaskAttributes> implements TaskAttributes {
+type TaskCreationAttributes = Optional<TaskAttributes,
+  "id" | "deleted" | "createdAt" | "updatedAt" | "deletedAt" | "createdBy" | "updatedBy" | "deletedBy">;
+
+
+class Task extends Model<TaskAttributes, TaskCreationAttributes> implements TaskAttributes {
   declare id: number;
   declare name: string;
   declare description: string;
-  declare status: number;
+  declare status: string;
   declare dueDate: Date;
   declare deleted: number;
   declare createdAt: Date;
   declare updatedAt: Date;
-  declare deletedAt: Date;
-  declare createdBy: number;
-  declare updatedBy: number;
-  declare deletedBy: number;
+  declare deletedAt: Date | null;
+  declare createdBy: number | null;
+  declare updatedBy: number | null;
+  declare deletedBy: number | null;
 }
 
 Task.init(

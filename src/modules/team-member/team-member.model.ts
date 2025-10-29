@@ -1,5 +1,5 @@
 import { sequelize } from "../../config/dbConnect.ts";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 // import Task from "../task/task.model.js";
 
 type TeamMemberAttributes = {
@@ -9,20 +9,24 @@ type TeamMemberAttributes = {
   createdAt: Date;
   deleted: number;
   updatedAt: Date;
-  createdBy: number;
-  updatedBy: number;
+  createdBy: number | null;
+  updatedBy: number | null;
 
 }
 
-class TeamMember extends Model<TeamMemberAttributes> implements TeamMemberAttributes {
+type TeamMemberCreationAttributes = Optional<TeamMemberAttributes,
+  "id" | "createdAt" | "updatedAt" | "deleted" | "createdBy" | "updatedBy">;
+
+
+class TeamMember extends Model<TeamMemberAttributes, TeamMemberCreationAttributes> implements TeamMemberAttributes {
   declare id: number;
   declare userId: number;
   declare taskId: number;
   declare createdAt: Date;
   declare deleted: number;
   declare updatedAt: Date;
-  declare createdBy: number;
-  declare updatedBy: number;
+  declare createdBy: number | null;
+  declare updatedBy: number | null;
 
 }
 

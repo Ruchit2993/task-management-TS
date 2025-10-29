@@ -1,5 +1,5 @@
 import { sequelize } from "../../config/dbConnect.js";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 // import TeamMember from "../team-member/team-member.model.js";
 // import Task from "../task/task.model.js";
 // import Comment from "../comments/comments.model.js";
@@ -8,7 +8,7 @@ type UserAttributes = {
   id: number;
   name: string;
   email: string;
-  contact: string;
+  contact: string | null;
   password: string;
   isAdmin: number;
   isFirstLogin: number;
@@ -16,17 +16,21 @@ type UserAttributes = {
   deleted: number;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt: Date;
-  createdBy: number;
-  updatedBy: number;
-  deletedBy: number;
+  deletedAt: Date | null;
+  createdBy: number | null;
+  updatedBy: number | null;
+  deletedBy: number | null;
 };
 
-class User extends Model<UserAttributes> implements UserAttributes {
+type UserCreationAttributes = Optional<UserAttributes,
+  "id" | "deleted" | "createdAt" | "updatedAt" | "deletedAt" | "createdBy" | "updatedBy" | "deletedBy">;
+
+
+class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   declare id: number;
   declare name: string;
   declare email: string;
-  declare contact: string;
+  declare contact: string | null;
   declare password: string;
   declare isAdmin: number;
   declare isFirstLogin: number;
@@ -34,11 +38,11 @@ class User extends Model<UserAttributes> implements UserAttributes {
   declare deleted: number;
   declare createdAt: Date;
   declare updatedAt: Date;
-  declare deletedAt: Date;
-  declare createdBy: number;
-  declare updatedBy: number;
-  declare deletedBy: number;
-} 
+  declare deletedAt: Date | null;
+  declare createdBy: number | null;
+  declare updatedBy: number | null;
+  declare deletedBy: number | null;
+}
 
 User.init(
   {
