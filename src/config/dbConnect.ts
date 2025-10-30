@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Sequelize, type Dialect } from 'sequelize';
-import messages from '../helper/constants/messages.js';
+import messages from '../helper/constants/messages.ts';
 
 const DB_NAME: string = process.env.DB_DBNAME ?? 'task_TS';
 const DB_USERNAME: string = process.env.DB_USERNAME ?? 'root';

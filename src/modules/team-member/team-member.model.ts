@@ -1,6 +1,6 @@
 import { sequelize } from "../../config/dbConnect.ts";
 import { DataTypes, Model, Optional } from "sequelize";
-// import Task from "../task/task.model.js";
+import {Task} from "../task/task.model.ts";
 
 type TeamMemberAttributes = {
   id: number;
@@ -80,7 +80,7 @@ TeamMember.init(
   }
 );
 
-// Task.hasMany(TeamMember, { foreignKey: "taskId" });
+Task.hasMany(TeamMember, { foreignKey: "taskId" });
 
 
 export default TeamMember;

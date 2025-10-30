@@ -1,0 +1,147 @@
+import { StatusMaster } from './status-master.model.ts';
+import messages from '../../helper/constants/messages.ts';
+import ResponseBuilder from '../../helper/responce-builder/responseBuilder.ts';
+import { validateStatus, validateStatusUpdate, validateStatusPatch } from './status-master.validation.ts';
+import { getAllActiveStatuses, findStatusByIdOrCode, statusDbIns } from './status-master.util.ts';
+import type { Request, Response } from "express";
+
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: number;
+    email: string;
+    isAdmin: boolean;
+  };
+}
+
+const getAllStatuses = async (req: AuthenticatedRequest, res: Response): Promise<Response | void> => {
+  try {
+    const statuses = await getAllActiveStatuses();
+    ResponseBuilder.success(res, 200, messages.SUCCESS.STATUS_RETRIEVED, { statuses });
+  } catch (error: any) {
+    ResponseBuilder.error(res, 500, messages.ERROR.SERVER_ERROR, error.message);
+  }
+};
+
+const getStatusByCode = async (req: AuthenticatedRequest, res: Response): Promise<Response | void> => {
+  try {
+    const { id } = req.params;
+
+    // Check if id is provided
+    if (!id) {
+      return ResponseBuilder.error(res, 400, messages.ERROR.VALIDATION_ERROR, '"id" or "code" is required');
+    }
+
+    const status = await findStatusByIdOrCode(id);
+
+    if (!status) {
+      return ResponseBuilder.error(res, 404, messages.ERROR.STATUS_NOT_FOUND);
+    }
+
+    ResponseBuilder.success(res, 200, messages.SUCCESS.STATUS_RETRIEVED, { status });
+  } catch (error: any) {
+    ResponseBuilder.error(res, 500, messages.ERROR.SERVER_ERROR, error.message);
+  }
+};
+
+const createStatus = async (req: AuthenticatedRequest, res: Response): Promise<Response | void> => {
+  const { error } = validateStatus(req.body);
+  if (error) {
+    return ResponseBuilder.error(res, 400, messages.ERROR.VALIDATION_ERROR, error.details[0].message);
+  }
+
+  const { code, name } = req.body;
+
+  try {
+
+    const existingStatus = await findStatusByIdOrCode(code);
+    if (existingStatus) {
+      return ResponseBuilder.error(res, 400, messages.ERROR.CODE_EXISTS);
+    }
+
+    const status = await statusDbIns(code, name, req.user!.id)
+//chek for !in above line user! 
+    ResponseBuilder.success(res, 201, messages.SUCCESS.STATUS_CREATED, { status });
+
+  } catch (error: any) {
+    ResponseBuilder.error(res, 500, messages.ERROR.SERVER_ERROR, error.message);
+  }
+};
+
+const updateStatus = async (req: AuthenticatedRequest, res: Response): Promise<Response | void> => {
+  const { code } = req.params;
+  const { error } = validateStatusUpdate(req.body);
+  if (error) {
+    return ResponseBuilder.error(res, 400, messages.ERROR.VALIDATION_ERROR, error.details[0].message);
+  }
+
+  const { code: newCode, name, status } = req.body;
+
+  try {
+    const existingStatus: any = await findStatusByIdOrCode(code);
+    if (!existingStatus) {
+      return ResponseBuilder.error(res, 404, messages.ERROR.STATUS_NOT_FOUND);
+    }
+
+    const updateData: any = {
+      code: newCode,
+      name,
+      status: status !== undefined ? status : existingStatus.status,
+      updatedBy: req.user?.id,
+    };
+
+    await existingStatus.update(updateData);
+    ResponseBuilder.success(res, 200, messages.SUCCESS.STATUS_UPDATED, { status: existingStatus });
+  } catch (error: any) {
+    ResponseBuilder.error(res, 500, messages.ERROR.SERVER_ERROR, error.message);
+  }
+};
+
+const patchStatus = async (req: AuthenticatedRequest, res: Response): Promise<Response | void> => {
+  const { code } = req.params;
+  const { error } = validateStatusPatch(req.body);
+  if (error) {
+    return ResponseBuilder.error(res, 400, messages.ERROR.VALIDATION_ERROR, error.details[0].message);
+  }
+
+  const { code: newCode, name, status } = req.body;
+
+  try {
+    const existingStatus: any = await findStatusByIdOrCode(code);
+    if (!existingStatus) {
+      return ResponseBuilder.error(res, 404, messages.ERROR.STATUS_NOT_FOUND);
+    }
+
+    const updateData: any = { updatedBy: req.user?.id };
+    if (newCode) updateData.code = newCode;
+    if (name) updateData.name = name;
+    if (status !== undefined) updateData.status = status;
+
+    await existingStatus.update(updateData);
+    ResponseBuilder.success(res, 200, messages.SUCCESS.STATUS_UPDATED, { status: existingStatus });
+  } catch (error: any) {
+    ResponseBuilder.error(res, 500, messages.ERROR.SERVER_ERROR, error.message);
+  }
+};
+
+const deleteStatus = async (req: AuthenticatedRequest, res: Response): Promise<Response | void> => {
+  const { code } = req.params;
+
+  try {
+    const status: any = await findStatusByIdOrCode(code);
+    if (!status) {
+      return ResponseBuilder.error(res, 404, messages.ERROR.STATUS_NOT_FOUND);
+    }
+
+    await status.update({
+      status: 0,
+      deleted: 1,
+      deletedAt: new Date(),
+      deletedBy: req.user?.id,
+    });
+    ResponseBuilder.success(res, 200, messages.SUCCESS.STATUS_DELETED);
+  } catch (error: any) {
+    ResponseBuilder.error(res, 500, messages.ERROR.SERVER_ERROR, error.message);
+  }
+};
+
+export { getAllStatuses, getStatusByCode, createStatus, updateStatus, patchStatus, deleteStatus };

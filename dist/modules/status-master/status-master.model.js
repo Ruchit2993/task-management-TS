@@ -66,4 +66,4 @@ StatusMaster.init({
         { unique: true, fields: ["code"] }
     ]
 });
-export default StatusMaster;
+export { StatusMaster };

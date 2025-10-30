@@ -1,18 +1,7 @@
-import User from "./user.model.js";
+import {User, type UserAttributes} from "./user.model.ts";
 import bcrypt from "bcrypt";
-import { FindOptions } from "sequelize";
+import type{ FindOptions } from "sequelize";
 
-interface UserAttributes {
-  id: number;
-  name: string;
-  email: string;
-  contact?: string | null;
-  isAdmin: boolean;
-  isFirstLogin: boolean;
-  status: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 const defaultUserAttributes: (keyof UserAttributes)[] = [
   "id",
@@ -28,7 +17,7 @@ const defaultUserAttributes: (keyof UserAttributes)[] = [
 
 const getAllActiveUsers = async (): Promise<UserAttributes[]> => {
   const options: FindOptions = {
-    attributes: defaultUserAttributes,
+    attributes: defaultUserAttributes,  
     where: { deleted: 0 },
   };
 

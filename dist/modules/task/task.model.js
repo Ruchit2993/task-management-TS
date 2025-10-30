@@ -1,5 +1,7 @@
 import { sequelize } from "../../config/dbConnect.js";
 import { DataTypes, Model } from "sequelize";
+import { StatusMaster } from "../status-master/status-master.model.js";
+import Comment from "../comments/comments.model.js";
 class Task extends Model {
 }
 Task.init({
@@ -64,8 +66,8 @@ Task.init({
     underscored: true,
     paranoid: false,
 });
-// Task.belongsTo(StatusMaster, { foreignKey: "status", targetKey: "code" });
-// StatusMaster.hasMany(Task, { foreignKey: "status", sourceKey: "code" });
-// Task.hasMany(Comment, { foreignKey: "taskId" });
-// Comment.belongsTo(Task, { foreignKey: "taskId" });
-export default Task;
+Task.belongsTo(StatusMaster, { foreignKey: "status", targetKey: "code" });
+StatusMaster.hasMany(Task, { foreignKey: "status", sourceKey: "code" });
+Task.hasMany(Comment, { foreignKey: "taskId" });
+Comment.belongsTo(Task, { foreignKey: "taskId" });
+export { Task };

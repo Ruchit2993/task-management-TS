@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import User from "../user/user.model.ts";
+import type{ Request, Response } from "express";
+import {User} from "../user/user.model.ts";
 import messages from "../../helper/constants/messages.ts";
 import ResponseBuilder from "../../helper/responce-builder/responseBuilder.ts";
 import { validateRegister, validateLogin, validateChangePassword, validateFirstChangePassword, validateForgotPassword, validateResetPassword,} from "./auth.validation.ts";

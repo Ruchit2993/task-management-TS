@@ -1,6 +1,8 @@
 import { sequelize } from "../../config/dbConnect.ts";
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 // import Task from "./task-model.js";
+
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type StatusMasterAttributes = {
   id: number;
@@ -101,4 +103,5 @@ StatusMaster.init(
   }
 );
 
-export default StatusMaster;
+export {StatusMaster};
+export type { StatusMasterAttributes};

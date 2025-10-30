@@ -1,16 +1,7 @@
 import express, { Router } from "express";
-import {
-  getAllUsers,
-  getUserById,
-  updateUser,
-  patchUser,
-  deleteUser,
-} from "./user.controller.ts";
-import {
-  verifyToken,
-  isAdmin,
-} from "../../helper/middlewares/auth.middleware.js";
-import { register } from "../auth/auth.controller.js";
+import { getAllUsers, getUserById, updateUser, patchUser, deleteUser } from "./user.controller.ts";
+import { verifyToken, isAdmin } from "../../helper/middlewares/auth.middleware.ts";
+import { register } from "../auth/auth.controller.ts";
 
 const router: Router = express.Router();
 

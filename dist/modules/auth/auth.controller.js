@@ -1,4 +1,4 @@
-import User from "../user/user.model.js";
+import { User } from "../user/user.model.js";
 import messages from "../../helper/constants/messages.js";
 import ResponseBuilder from "../../helper/responce-builder/responseBuilder.js";
 import { validateRegister, validateLogin, validateChangePassword, validateFirstChangePassword, validateForgotPassword, validateResetPassword, } from "./auth.validation.js";

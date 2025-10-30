@@ -1,5 +1,6 @@
 import { sequelize } from "../../config/dbConnect.js";
 import { DataTypes, Model } from "sequelize";
+import { Task } from "../task/task.model.js";
 class TeamMember extends Model {
 }
 TeamMember.init({
@@ -48,5 +49,5 @@ TeamMember.init({
     underscored: true,
     paranoid: false,
 });
-// Task.hasMany(TeamMember, { foreignKey: "taskId" });
+Task.hasMany(TeamMember, { foreignKey: "taskId" });
 export default TeamMember;

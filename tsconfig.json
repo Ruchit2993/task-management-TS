@@ -44,7 +44,7 @@
   },
   "include": [
     "src/**/*.ts"
-, "src/modules/status-master/status-master.controller.js", "src/modules/user/user.controller.ts"  ],
+, "src/modules/status-master/status-master.controller.ts", "src/modules/user/user.controller.ts"  ],
   "exclude": [
     "node_modules",
     "dist"

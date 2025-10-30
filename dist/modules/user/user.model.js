@@ -1,5 +1,8 @@
 import { sequelize } from "../../config/dbConnect.js";
 import { DataTypes, Model } from "sequelize";
+import TeamMember from "../team-member/team-member.model.js";
+import { Task } from "../task/task.model.js";
+import Comment from "../comments/comments.model.js";
 class User extends Model {
 }
 User.init({
@@ -84,15 +87,15 @@ User.init({
     ],
 });
 // Associations
-// User.hasMany(TeamMember, { foreignKey: "userId" });
-// TeamMember.belongsTo(User, { foreignKey: "userId" });
-// TeamMember.belongsTo(Task, { foreignKey: "taskId" });
-// User.hasMany(Task, { foreignKey: "createdBy", as: "createdTasks" });
-// User.hasMany(Task, { foreignKey: "updatedBy", as: "updatedTasks" });
-// User.hasMany(Task, { foreignKey: "deletedBy", as: "deletedTasks" });
-// Task.belongsTo(User, { foreignKey: "createdBy", as: "creator" });
-// Task.belongsTo(User, { foreignKey: "updatedBy", as: "updater" });
-// Task.belongsTo(User, { foreignKey: "deletedBy", as: "deleter" });
-// User.hasMany(Comment, { foreignKey: "userId" });
-// Comment.belongsTo(User, { foreignKey: "userId" });
-export default User;
+User.hasMany(TeamMember, { foreignKey: "userId" });
+TeamMember.belongsTo(User, { foreignKey: "userId" });
+TeamMember.belongsTo(Task, { foreignKey: "taskId" });
+User.hasMany(Task, { foreignKey: "createdBy", as: "createdTasks" });
+User.hasMany(Task, { foreignKey: "updatedBy", as: "updatedTasks" });
+User.hasMany(Task, { foreignKey: "deletedBy", as: "deletedTasks" });
+Task.belongsTo(User, { foreignKey: "createdBy", as: "creator" });
+Task.belongsTo(User, { foreignKey: "updatedBy", as: "updater" });
+Task.belongsTo(User, { foreignKey: "deletedBy", as: "deleter" });
+User.hasMany(Comment, { foreignKey: "userId" });
+Comment.belongsTo(User, { foreignKey: "userId" });
+export { User };

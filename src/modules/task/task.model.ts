@@ -1,16 +1,16 @@
 import { sequelize } from "../../config/dbConnect.ts";
 import { DataTypes, Model, Optional } from "sequelize";
-// import User from "./user-model.js";
-// import TeamMember from "./team-member-model.js";
-// import StatusMaster from "../status-master/status-master.model.ts";
-// import Comment from "../comments/comments.model.ts";
+import {User} from "../user/user.model.ts";
+import TeamMember from "../team-member/team-member.model.ts";
+import {StatusMaster} from "../status-master/status-master.model.ts";
+import Comment from "../comments/comments.model.ts";
 
 type TaskAttributes = {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   status: string;
-  dueDate: Date;
+  dueDate?: Date;
   deleted: number;
   createdAt: Date;
   updatedAt: Date;
@@ -106,10 +106,11 @@ Task.init(
   }
 );
 
-// Task.belongsTo(StatusMaster, { foreignKey: "status", targetKey: "code" });
-// StatusMaster.hasMany(Task, { foreignKey: "status", sourceKey: "code" });
-// Task.hasMany(Comment, { foreignKey: "taskId" });
+Task.belongsTo(StatusMaster, { foreignKey: "status", targetKey: "code" });
+StatusMaster.hasMany(Task, { foreignKey: "status", sourceKey: "code" });
+Task.hasMany(Comment, { foreignKey: "taskId" });
 
-// Comment.belongsTo(Task, { foreignKey: "taskId" });
+Comment.belongsTo(Task, { foreignKey: "taskId" });
 
-export default Task;
+export {Task};
+export type {TaskAttributes}

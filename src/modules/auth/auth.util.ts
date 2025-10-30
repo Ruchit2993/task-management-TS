@@ -42,4 +42,4 @@ const comparePassword = async (plainPassword: string, hashedPassword: string): P
   return await bcrypt.compare(plainPassword, hashedPassword);
 };
 
-export { generateToken, hashPassword, comparePassword, JwtPayload };
+export { generateToken, hashPassword, comparePassword };

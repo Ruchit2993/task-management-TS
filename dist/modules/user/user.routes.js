@@ -1,6 +1,6 @@
 import express from "express";
-import { getAllUsers, getUserById, updateUser, patchUser, deleteUser, } from "./user.controller.js";
-import { verifyToken, isAdmin, } from "../../helper/middlewares/auth.middleware.js";
+import { getAllUsers, getUserById, updateUser, patchUser, deleteUser } from "./user.controller.js";
+import { verifyToken, isAdmin } from "../../helper/middlewares/auth.middleware.js";
 import { register } from "../auth/auth.controller.js";
 const router = express.Router();
 router.get("/", verifyToken, isAdmin, getAllUsers);

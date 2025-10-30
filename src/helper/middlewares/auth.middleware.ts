@@ -1,6 +1,7 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
-import messages from "../constants/messages.js";
+import jwt from "jsonwebtoken";
+import type { JwtPayload } from "jsonwebtoken";
+import type { Request, Response, NextFunction } from "express";
+import messages from "../constants/messages.ts";
 
 // Extend Express Request type to include "user"
 declare module "express-serve-static-core" {
@@ -33,7 +34,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction): Response 
       email: decoded.email,
       isAdmin: decoded.isAdmin,
 
-      
+
     };
 
     next();

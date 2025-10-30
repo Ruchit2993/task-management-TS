@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Sequelize } from 'sequelize';
-import messages from '../helper/constants/messages.js';
+import messages from "../helper/constants/messages.js";
 const DB_NAME = process.env.DB_DBNAME ?? 'task_TS';
 const DB_USERNAME = process.env.DB_USERNAME ?? 'root';
 const DB_PASSWORD = process.env.DB_PASSWORD ?? ''; // fixed typo

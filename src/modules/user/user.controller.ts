@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import messages from "../../helper/constants/messages.ts";
 import bcrypt from "bcrypt";
 import ResponseBuilder from "../../helper/responce-builder/responseBuilder.ts";
-import { validateUserUpdate, validateUserPatch } from "./userValidation.ts";
+import { validateUserUpdate, validateUserPatch } from "./user.validation.ts";
 import { getAllActiveUsers, findUserById } from "./user.util.ts";
 
 // Extend Express Request to include req.user

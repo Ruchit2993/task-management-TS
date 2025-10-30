@@ -1,7 +1,7 @@
 import messages from "../../helper/constants/messages.js";
 import bcrypt from "bcrypt";
 import ResponseBuilder from "../../helper/responce-builder/responseBuilder.js";
-import { validateUserUpdate, validateUserPatch } from "./userValidation.js";
+import { validateUserUpdate, validateUserPatch } from "./user.validation.js";
 import { getAllActiveUsers, findUserById } from "./user.util.js";
 const getAllUsers = async (req, res) => {
     try {

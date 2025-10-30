@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyToken, isAdmin } from "../../helper/middlewares/auth.middleware.ts";
-import { register, login, changePassword, firstChangePassword, forgotPassword, resetPassword, } from "../auth/auth.controller.js";
+import { register, login, changePassword, firstChangePassword, forgotPassword, resetPassword, } from "../auth/auth.controller.ts";
 
 const router = Router();
 
